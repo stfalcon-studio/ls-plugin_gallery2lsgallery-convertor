@@ -1,6 +1,6 @@
 <?php
 
-class PluginMigrate_ModuleMigrate extends Module
+class PluginLsgallerymigrate_ModuleMigrate extends Module
 {
     protected $oMapper;
     public function Init()

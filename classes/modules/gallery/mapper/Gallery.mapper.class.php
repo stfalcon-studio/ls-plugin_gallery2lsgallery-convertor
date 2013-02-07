@@ -1,6 +1,6 @@
 <?php
 
-class PluginMigrate_ModuleGallery_MapperGallery extends PluginMigrate_Inherit_PluginGallery_ModuleGallery_MapperGallery {
+class PluginLsgallerymigrate_ModuleGallery_MapperGallery extends PluginLsgallerymigrate_Inherit_PluginGallery_ModuleGallery_MapperGallery {
 
     public function GetAllAlbumsIds()
     {

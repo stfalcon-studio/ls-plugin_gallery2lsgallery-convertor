@@ -13,7 +13,7 @@
 ---------------------------------------------------------
 */
 
-class PluginMigrate_ModuleGallery extends PluginMigrate_Inherit_PluginGallery_ModuleGallery {
+class PluginLsgallerymigrate_ModuleGallery extends PluginLsgallerymigrate_Inherit_PluginGallery_ModuleGallery {
 
 	public function getAllAlbums() {
         $aResult = $this->oMapper->GetAllAlbumsIds();

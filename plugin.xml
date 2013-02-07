@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
 	<name>
-		<lang name="default">Migrate</lang>
+		<lang name="default">LsGalleryMigrate</lang>
 	</name>
 	<author>
 		<lang name="default">LiveStreet Developers Team</lang>
@@ -10,8 +10,10 @@
 	<settings>{page}admin/</settings>
 	<version>1.0.0</version>
 	<requires>
-		<livestreet>0.5</livestreet>
+		<livestreet>0.5.0</livestreet>
 		<plugins>
+            <plugin name="lsgallery" version="0.2.4" condition="eq">lsgallery</plugin>
+            <plugin name="gallery" version="2.0.1" condition="eq">gallery</plugin>
 		</plugins>
 	</requires>
 	<description>

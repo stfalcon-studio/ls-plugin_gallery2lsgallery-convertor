@@ -17,7 +17,7 @@ class GallerymigratonCron extends Cron {
 	public function Client()
     {
         $aActivePlugins = $this->Plugin_GetActivePlugins();
-        if (!in_array('lsgallery', $aActivePlugins) || !in_array('gallery', $aActivePlugins) || !in_array('migrate', $aActivePlugins)) {
+        if (!in_array('lsgallery', $aActivePlugins) || !in_array('gallery', $aActivePlugins) || !in_array('lsgallerymigrate', $aActivePlugins)) {
             $this->Log("One of galleries is not active.");
             return;
         }
@@ -45,9 +45,9 @@ class GallerymigratonCron extends Cron {
                 return;
             }
 
-            foreach($this->PluginGallery_Gallery_getImagesByAlbumId($oAlbum->GetId()) as $oAlbumImage) {
+            foreach($this->PluginLsgallerymigrate_Gallery_getImagesByAlbumId($oAlbum->GetId()) as $oAlbumImage) {
                 // eject
-                if (!$sImagePath = $this->PluginMigrate_Migrate_UploadImage(array('tmp_name' => $oAlbumImage->getImageOriginalServerPath()))){
+                if (!$sImagePath = $this->PluginLsgallerymigrate_Migrate_UploadImage(array('tmp_name' => $oAlbumImage->getImageOriginalServerPath()))){
                     $this->Log("Error uploading file");
                     return;
                 }

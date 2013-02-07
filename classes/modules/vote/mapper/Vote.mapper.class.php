@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class PluginMigrate_ModuleVote_MapperVote extends PluginMigrate_Inherit_ModuleVote_MapperVote {
+class PluginLsgallerymigrate_ModuleVote_MapperVote extends PluginLsgallerymigrate_Inherit_ModuleVote_MapperVote {
 
 	public function GetVotesByTargetId($aTargetId, $sTargetType)
     {

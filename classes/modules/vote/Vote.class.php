@@ -19,7 +19,7 @@
  * Модуль для работы с голосованиями
  *
  */
-class PluginMigrate_ModuleVote extends PluginMigrate_Inherit_ModuleVote {
+class PluginLsgallerymigrate_ModuleVote extends PluginLsgallerymigrate_Inherit_ModuleVote {
 	protected $oMapper;	
 
 	public function Init()

@@ -22,16 +22,15 @@ if (!class_exists('Plugin')) {
 	die('Hacking attempt!');
 }
 
-class PluginMigrate extends Plugin {
+class PluginLsgallerymigrate extends Plugin {
 
 	protected $aInherits = array(
         'mapper' => array(
-            'PluginGallery_ModuleGallery_MapperGallery' => 'PluginMigrate_ModuleGallery_MapperGallery',
+            'PluginGallery_ModuleGallery_MapperGallery' => 'PluginLsgallerymigrate_ModuleGallery_MapperGallery',
 		),
         'module' => array(
-            'PluginGallery_ModuleGallery' => 'PluginMigrate_ModuleGallery',
-            //'PluginLsgallery_ModuleImage' => 'PluginMigrate_ModuleImage',
-            'ModuleVote' => 'PluginMigrate_ModuleVote',
+            'PluginGallery_ModuleGallery' => 'PluginLsgallerymigrate_ModuleGallery',
+            'ModuleVote' => 'PluginLsgallerymigrate_ModuleVote',
         ),
 	);
 
