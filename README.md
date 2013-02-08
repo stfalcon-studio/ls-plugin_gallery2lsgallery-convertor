@@ -14,7 +14,7 @@ http://livestreetcms.com/addons/view/378/
 
 
 ТРЕБОВАНИЯ:
-LS 0.5,
+LS 0.5
 Плагин "Gallery" версии: 2.0.2
 Плагин "Lsgallery" версии: 0.2.4
 
