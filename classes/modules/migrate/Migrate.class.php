@@ -1,13 +1,20 @@
 <?php
-
+/**
+ * Модуль обработки данных для миграции
+ *
+ * Class PluginLsgallerymigrate_ModuleMigrate
+ */
 class PluginLsgallerymigrate_ModuleMigrate extends Module
 {
-    protected $oMapper;
-    public function Init()
-    {
+    public function Init(){}
 
-    }
-
+    /**
+     * Функция копирования изображжения из указанной папки в папку галереи
+     *
+     * @param array $aFile
+     *
+     * @return bool|mixed
+     */
     public function UploadImage($aFile)
     {
         if (!is_array($aFile) || !isset($aFile['tmp_name'])) {

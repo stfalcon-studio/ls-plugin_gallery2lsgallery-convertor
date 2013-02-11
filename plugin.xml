@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
 	<name>
-		<lang name="default">LsGalleryMigrate</lang>
+        <lang name="default">LsGallery Migrate</lang>
+        <lang name="russian">Миграция на LsGallery</lang>
 	</name>
 	<author>
-		<lang name="default">LiveStreet Developers Team</lang>
+        <lang name="default">Web-studio stfalcon.com</lang>
+        <lang name="russian">Веб-студия stfalcon.com</lang>
+        <lang name="ukrainian">Веб-студія stfalcon.com</lang>
 	</author>
 	<homepage>http://livestreet.ru</homepage>
-	<settings>{page}admin/</settings>
 	<version>1.0.0</version>
 	<requires>
 		<livestreet>0.5.0</livestreet>
 		<plugins>
             <plugin name="lsgallery" version="0.2.4" condition="eq">lsgallery</plugin>
-            <plugin name="gallery" version="2.0.1" condition="eq">gallery</plugin>
+            <plugin name="gallery" version="2.0.2" condition="eq">gallery</plugin>
 		</plugins>
 	</requires>
 	<description>

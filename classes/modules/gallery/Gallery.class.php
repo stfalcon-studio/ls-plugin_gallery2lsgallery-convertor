@@ -1,21 +1,18 @@
 <?php
-/*-------------------------------------------------------
-*
-*   LiveStreet Engine Gallery
-*   Copyright  ver.0.3.1 © 2008 Moiseev Kirill
-*   Copyright  ver.0.4.2 © 2010 Vladimir Yuriev
-*
-*--------------------------------------------------------
-*
-*   Plugin Page: http://lsmods.ru
-*   Contact e-mail: support@lsmods.ru
-*
----------------------------------------------------------
-*/
 
+/**
+ * Расширение плагина Gallery
+ *
+ * Class PluginLsgallerymigrate_ModuleGallery
+ */
 class PluginLsgallerymigrate_ModuleGallery extends PluginLsgallerymigrate_Inherit_PluginGallery_ModuleGallery {
 
-	public function getAllAlbums() {
+    /**
+     * Получает список Идентификаторов всех альбомов плагина Gallery
+     *
+     * @return array();
+     */
+    public function getAllAlbums() {
         $aResult = $this->oMapper->GetAllAlbumsIds();
 
         $aAlbumsId = array();
@@ -26,4 +23,3 @@ class PluginLsgallerymigrate_ModuleGallery extends PluginLsgallerymigrate_Inheri
         return $aAlbumsId;
     }
 }
-?>

@@ -18,11 +18,13 @@ class GallerymigratonCron extends Cron {
     {
         $aActivePlugins = $this->Plugin_GetActivePlugins();
         if (!in_array('lsgallery', $aActivePlugins) || !in_array('gallery', $aActivePlugins) || !in_array('lsgallerymigrate', $aActivePlugins)) {
-            $this->Log("One of galleries is not active.");
+            echo ("One of galleries is not active." . PHP_EOL);
+            ob_flush();
             return;
         }
 
         $this->Cache_Clean();
+        $bError = false;
 
         $aAllAlbums = $this->PluginGallery_Gallery_GetAllAlbums();
         foreach ($this->PluginGallery_Gallery_GetAlbumsByArrayId($aAllAlbums) as $oAlbum) {
@@ -41,14 +43,16 @@ class GallerymigratonCron extends Cron {
             //Если не сохранилось, останавливаем скрипт
             if (!$oSavedAlbum) {
                 //@todo cont
-                $this->Log("One of galleries is not active.");
+                $this->Log("Error saving the gallery " . $oAlbum->getId() . PHP_EOL);
+                $bError = true;
                 return;
             }
 
             foreach($this->PluginLsgallerymigrate_Gallery_getImagesByAlbumId($oAlbum->GetId()) as $oAlbumImage) {
                 // eject
                 if (!$sImagePath = $this->PluginLsgallerymigrate_Migrate_UploadImage(array('tmp_name' => $oAlbumImage->getImageOriginalServerPath()))){
-                    $this->Log("Error uploading file");
+                    $this->Log("Error uploading file " . $oAlbumImage->getId() . PHP_EOL);
+                    $bError = true;
                     return;
                 }
 
@@ -59,7 +63,8 @@ class GallerymigratonCron extends Cron {
                 $oLsImage->setFilename($sImagePath);
 
                 if (!$oLsImage = $this->PluginLsgallery_Image_AddImage($oLsImage)){
-                    $this->Log("Error saving image");
+                    $this->Log("Error saving image " . $oAlbumImage->getId() . PHP_EOL);
+                    $bError = true;
                     return;
                 }
 
@@ -75,7 +80,8 @@ class GallerymigratonCron extends Cron {
                 $oLsImage->setCountVote($oAlbumImage->getImageCountVote());
 
                 if (!$this->PluginLsgallery_Image_UpdateImage($oLsImage)){
-                    $this->Log("Error updating image");
+                    $this->Log("Error updating image " . $oAlbumImage->getId() . PHP_EOL);
+                    $bError = true;
                     return;
                 }
 
@@ -90,7 +96,8 @@ class GallerymigratonCron extends Cron {
                         $oComment->setTargetType('image');
                         // removed comment!!!
                         if (!$this->Comment_AddComment($oComment)) {
-                            $this->Log("Error updating comment for image {$oLsImage->getImageId()}");
+                            $this->Log("Error updating comment for image {$oLsImage->getImageId()}" . PHP_EOL);
+                            $bError = true;
                         }
                     }
                 }
@@ -102,11 +109,17 @@ class GallerymigratonCron extends Cron {
                     $oVote->setTargetId($oLsImage->getImageId());
 
                     if (!$this->Vote_AddVote($oVote)) {
-                        $this->Log("Error updating Vote for image {$oLsImage->getImageId()}");
+                        $this->Log("Error updating Vote for image {$oLsImage->getImageId()}" . PHP_EOL);
+                        $bError = true;
                     }
                 }
             }
             echo 'migrate album - ' . $oAlbum->getId() . PHP_EOL;
+            ob_flush();
+        }
+
+        if ($bError) {
+            echo('Во время работы плагина произошла ошибка, подробности можно узнать в файле логирования');
         }
 
         $this->PluginLsgallery_Image_RecalculateFavourite();

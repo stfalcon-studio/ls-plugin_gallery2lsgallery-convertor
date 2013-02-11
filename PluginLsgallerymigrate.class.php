@@ -27,6 +27,7 @@ class PluginLsgallerymigrate extends Plugin {
 	protected $aInherits = array(
         'mapper' => array(
             'PluginGallery_ModuleGallery_MapperGallery' => 'PluginLsgallerymigrate_ModuleGallery_MapperGallery',
+            'ModuleVote_MapperVote' => 'PluginLsgallerymigrate_ModuleVote_MapperVote',
 		),
         'module' => array(
             'PluginGallery_ModuleGallery' => 'PluginLsgallerymigrate_ModuleGallery',

@@ -1,23 +1,19 @@
 <?php
-/*-------------------------------------------------------
-*
-*   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
-*
-*--------------------------------------------------------
-*
-*   Official site: www.livestreet.ru
-*   Contact e-mail: rus.engine@gmail.com
-*
-*   GNU General Public License, version 2:
-*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-*
----------------------------------------------------------
-*/
 
+/**
+ * Расширение маппера
+ *
+ * Class PluginLsgallerymigrate_ModuleVote_MapperVote
+ */
 class PluginLsgallerymigrate_ModuleVote_MapperVote extends PluginLsgallerymigrate_Inherit_ModuleVote_MapperVote {
 
-	public function GetVotesByTargetId($aTargetId, $sTargetType)
+    /**
+     * @param integer $aTargetId
+     * @param string $sTargetType ('image', 'topic', ...)
+     *
+     * @return ModuleVote_EntityVote[]
+     */
+    public function GetVotesByTargetId($aTargetId, $sTargetType)
     {
         $sql = "SELECT
 					*
@@ -27,13 +23,13 @@ class PluginLsgallerymigrate_ModuleVote_MapperVote extends PluginLsgallerymigrat
 					target_id IN(?a)
 					AND
 					target_type = ? ";
-        $aVotes=array();
-        if ($aRows=$this->oDb->select($sql,$aTargetId,$sTargetType)) {
+        $aVotes = array();
+        if ($aRows = $this->oDb->select($sql,$aTargetId,$sTargetType)) {
             foreach ($aRows as $aRow) {
-                $aVotes[]=Engine::GetEntity('Vote',$aRow);
+                $aVotes[] = Engine::GetEntity('Vote',$aRow);
             }
         }
+
         return $aVotes;
 	}
 }
-?>
