@@ -9,7 +9,7 @@
         <lang name="russian">Веб-студия stfalcon.com</lang>
         <lang name="ukrainian">Веб-студія stfalcon.com</lang>
 	</author>
-	<homepage>http://livestreet.ru</homepage>
+	<homepage>http://stfalcon.com/</homepage>
 	<version>1.0.0</version>
 	<requires>
 		<livestreet>0.5.0</livestreet>

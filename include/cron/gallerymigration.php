@@ -43,17 +43,17 @@ class GallerymigratonCron extends Cron {
             //Если не сохранилось, останавливаем скрипт
             if (!$oSavedAlbum) {
                 //@todo cont
-                $this->Log("Error saving the gallery " . $oAlbum->getId() . PHP_EOL);
+                $this->Log("Error saving the gallery " . $oAlbum->getId());
                 $bError = true;
-                return;
+                continue;
             }
 
             foreach($this->PluginLsgallerymigrate_Gallery_getImagesByAlbumId($oAlbum->GetId()) as $oAlbumImage) {
                 // eject
                 if (!$sImagePath = $this->PluginLsgallerymigrate_Migrate_UploadImage(array('tmp_name' => $oAlbumImage->getImageOriginalServerPath()))){
-                    $this->Log("Error uploading file " . $oAlbumImage->getId() . PHP_EOL);
+                    $this->Log("Error uploading file " . $oAlbumImage->getId());
                     $bError = true;
-                    return;
+                    continue;
                 }
 
                 // сохранение изображения
@@ -63,9 +63,9 @@ class GallerymigratonCron extends Cron {
                 $oLsImage->setFilename($sImagePath);
 
                 if (!$oLsImage = $this->PluginLsgallery_Image_AddImage($oLsImage)){
-                    $this->Log("Error saving image " . $oAlbumImage->getId() . PHP_EOL);
+                    $this->Log("Error saving image " . $oAlbumImage->getId());
                     $bError = true;
-                    return;
+                    continue;
                 }
 
                 if ($oAlbum->getCoverId() == $oAlbumImage->getId()) {
@@ -80,24 +80,32 @@ class GallerymigratonCron extends Cron {
                 $oLsImage->setCountVote($oAlbumImage->getImageCountVote());
 
                 if (!$this->PluginLsgallery_Image_UpdateImage($oLsImage)){
-                    $this->Log("Error updating image " . $oAlbumImage->getId() . PHP_EOL);
+                    $this->Log("Error updating image " . $oAlbumImage->getId());
                     $bError = true;
-                    return;
+                    continue;
                 }
 
-                // debug
-                //$oAlbumImage->getId()
                 $aImageComments = $this->Comment_GetCommentsByTargetId($oAlbumImage->getId(), 'gallery');
                 if (isset($aImageComments['comments'])) {
                     foreach ($aImageComments['comments'] as $oComment) {
+                        $iCommentDelete = $oComment->getDelete();
                         $oComment->setId(NULL);
                         $oComment->setTargetId($oLsImage->getImageId());
                         $oComment->setTargetParentId($oLsImage->getAlbumId());
                         $oComment->setTargetType('image');
                         // removed comment!!!
                         if (!$this->Comment_AddComment($oComment)) {
-                            $this->Log("Error updating comment for image {$oLsImage->getImageId()}" . PHP_EOL);
+                            $this->Log("Error Adding comment for image {$oLsImage->getImageId()}");
                             $bError = true;
+                            continue;
+                        }
+
+                        if ($iCommentDelete) {
+                            $oComment->setDelete($iCommentDelete);
+                            if (!$this->Comment_UpdateComment($oComment)) {
+                                $this->Log("Error updating comment for image {$oLsImage->getImageId()}");
+                                $bError = true;
+                            }
                         }
                     }
                 }
@@ -109,7 +117,7 @@ class GallerymigratonCron extends Cron {
                     $oVote->setTargetId($oLsImage->getImageId());
 
                     if (!$this->Vote_AddVote($oVote)) {
-                        $this->Log("Error updating Vote for image {$oLsImage->getImageId()}" . PHP_EOL);
+                        $this->Log("Error updating Vote for image {$oLsImage->getImageId()}");
                         $bError = true;
                     }
                 }
@@ -119,7 +127,7 @@ class GallerymigratonCron extends Cron {
         }
 
         if ($bError) {
-            echo('Во время работы плагина произошла ошибка, подробности можно узнать в файле логирования');
+            echo('Во время работы плагина произошла ошибка, подробности можно узнать в файле логирования' . PHP_EOL);
         }
 
         $this->PluginLsgallery_Image_RecalculateFavourite();
